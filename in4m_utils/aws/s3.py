@@ -52,7 +52,7 @@ def _get_gz_data(data, filepath):
     return data_obj.getvalue()
 
 
-def write_data_to_s3(data, s3_url, is_gzip=False):
+def write_data_to_s3(data, s3_url, is_gzip=False, conn = S3Connection()):
     """writes data to s3 location
     Args:
         data (str): data in string format
@@ -64,7 +64,8 @@ def write_data_to_s3(data, s3_url, is_gzip=False):
         path += ".gz"
         data = _get_gz_data(data, path)
 
-    s3_key = _get_s3_key(bucket, path)
+    bucket = conn.get_bucket(bucket)
+    s3_key = bucket.get_key(path[1:])
     s3_key.set_contents_from_string(data)
 
 
