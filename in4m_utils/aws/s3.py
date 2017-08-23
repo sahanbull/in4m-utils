@@ -2,6 +2,7 @@ import gzip
 
 from StringIO import StringIO
 from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 
 from in4m_utils.general.url import parse_url
 
@@ -31,8 +32,9 @@ def _get_s3_key(bucket, path, conn=S3Connection()):
     Returns:
         key (Key): key of the url
     """
-    key = conn.get_bucket(bucket)
-    key.get_key(path[1:])
+    bucket = conn.get_bucket(bucket)
+    key = Key(bucket)
+    key.key = path[1:]
     return key
 
 
