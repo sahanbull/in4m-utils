@@ -31,8 +31,8 @@ def _get_s3_key(bucket, path, conn=S3Connection()):
     Returns:
         key (Key): key of the url
     """
-    bucket = conn.get_bucket(bucket)
-    key = bucket.get_key(path[1:])
+    key = conn.get_bucket(bucket)
+    key.get_key(path[1:])
     return key
 
 
